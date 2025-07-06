@@ -1,0 +1,17 @@
+# Ignore compiled Java class files
+*.class
+
+# Ignore VS Code project settings
+.vscode/
+
+# Ignore IntelliJ project files
+*.iml
+.idea/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore output and logs
+/output/
+*.log
