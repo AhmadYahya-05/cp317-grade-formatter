@@ -12,8 +12,9 @@ package gradeFormatter;
 /**
  * Represents a single course a student is enrolled in,
  * including grades for 3 tests and a final exam.
+ * Demonstrates ABSTRACTION by implementing GradeCalculator interface.
  */
-public class StudentCourse {
+public class StudentCourse implements GradeCalculator {
 
 	private String courseCode;
 	private int test1, test2, test3, finalExam;
@@ -39,14 +40,27 @@ public class StudentCourse {
 	}
 
 	/**
+	 * Validates that a grade is within acceptable range.
+	 * Demonstrates ABSTRACTION by implementing interface method.
+	 *
+	 * @param grade the grade to validate
+	 * @return true if grade is valid, false otherwise
+	 */
+	@Override
+	public boolean isValidGrade(int grade) {
+		return grade >= 0 && grade <= 100;
+	}
+
+	/**
 	 * Validates that a mark is within 0 to 100.
+	 * Demonstrates ABSTRACTION by using interface method.
 	 *
 	 * @param mark integer grade to check
 	 * @return valid mark if in range
 	 * @throws IllegalArgumentException if mark is out of range
 	 */
 	private int validateMark(int mark) {
-		if (mark < 0 || mark > 100) {
+		if (!isValidGrade(mark)) {
 			throw new IllegalArgumentException("Invalid grade: " + mark + ". Must be between 0 and 100.");
 		}
 		return mark;
@@ -54,9 +68,11 @@ public class StudentCourse {
 
 	/**
 	 * Calculates the final grade using weighted average.
+	 * Demonstrates ABSTRACTION by implementing interface method.
 	 *
 	 * @return final grade rounded to 1 decimal place
 	 */
+	@Override
 	public double calculateFinalGrade() {
 		double finalGrade = 0.2 * test1 + 0.2 * test2 + 0.2 * test3 + 0.4 * finalExam;
 		return Math.round(finalGrade * 10.0) / 10.0;
