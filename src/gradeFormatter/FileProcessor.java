@@ -3,7 +3,7 @@
 Project: CP317 Grade Formatter
 File:    FileProcessor.java
 Author:  Mehdi Al-heloo
-Version: 2025-07-07
+Version: 2025-07-10
 --------------------------------------------------
 */
 
@@ -16,11 +16,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Handles reading and parsing input files:
- * - NameFile.txt: Contains student IDs and names
- * - CourseFile.txt: Contains student IDs, course codes, and marks
- * 
- * Builds a map of Student objects keyed by student ID.
+ * Handles file input and constructs Student objects with course records.
  */
 public class FileProcessor {
 
@@ -100,4 +96,3 @@ public class FileProcessor {
 
         return studentMap;
     }
-}
