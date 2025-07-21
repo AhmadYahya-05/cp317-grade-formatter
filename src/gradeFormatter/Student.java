@@ -1,12 +1,3 @@
-/*
---------------------------------------------------
-Project: CP317 Grade Formatter
-File:    Student.java
-Author:  Mehdi Al-heloo
-Version: 2025-07-10
---------------------------------------------------
-*/
-
 package gradeFormatter;
 
 import java.util.ArrayList;
