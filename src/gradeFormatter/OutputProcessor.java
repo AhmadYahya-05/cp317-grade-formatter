@@ -29,6 +29,12 @@ public class OutputProcessor {
      * @param outputFile the name of the output file to generate
      */
     public static void writeOutput(Map<String, Student> studentMap, String outputFile) {
+        if (studentMap == null) {
+            throw new IllegalArgumentException("studentMap cannot be null");
+        }
+        if (outputFile == null || outputFile.isBlank()) {
+            throw new IllegalArgumentException("Output file name is invalid");
+        }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
             
             //Iterate over each student (automatically sorted by TreeMap)
@@ -50,10 +56,8 @@ public class OutputProcessor {
                 }
             }
 
-            System.out.println("Output file generated: " + outputFile);
-
         } catch (IOException e) {
-            System.out.println("Error writing output file: " + e.getMessage());
+            throw new RuntimeException("Failed to write to output file: " + outputFile, e);
         }
     }
 }
