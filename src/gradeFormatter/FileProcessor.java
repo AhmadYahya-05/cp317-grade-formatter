@@ -32,6 +32,12 @@ public class FileProcessor {
      * @return a TreeMap where keys are student IDs and values are Student objects
      */
     public static Map<String, Student> loadStudentData(String nameFile, String courseFile) {
+        if (nameFile == null || nameFile.isBlank()) {
+            throw new IllegalArgumentException("nameFile path is null or empty");
+        }
+        if (courseFile == null || courseFile.isBlank()) {
+            throw new IllegalArgumentException("courseFile path is null or empty");
+        }
         Map<String, Student> studentMap = new TreeMap<>();
 
         //Step 1: Read name file and create Student objects
@@ -44,10 +50,7 @@ public class FileProcessor {
                 String[] parts = line.split(",\\s*");
 
                 //Expect exactly 2 parts: ID and Name
-                if (parts.length != 2) {
-                    System.out.println("Invalid line in name file: " + line);
-                    continue;
-                }
+                assert parts.length == 2 : "Invalid format in name file: " + line;
 
                 //Extract student ID and name
                 String id = parts[0];
@@ -59,7 +62,7 @@ public class FileProcessor {
 
         } catch (IOException e) {
             //Handle error if file can't be opened or read
-            System.out.println("Error reading name file: " + e.getMessage());
+            throw new RuntimeException("Failed to read name file: " + nameFile, e);
         }
 
         //Step 2: Read course file and add StudentCourse to corresponding students
@@ -71,45 +74,30 @@ public class FileProcessor {
                 //Each line should have 6 parts: ID, course code, 3 tests, and final exam
                 String[] parts = line.split(",\\s*");
 
-                if (parts.length != 6) {
-                    System.out.println("Invalid line in course file: " + line);
-                    continue;
-                }
+                assert parts.length == 6 : "Invalid format in course file: " + line;
 
                 //Extract student ID and course code
                 String id = parts[0];
                 String courseCode = parts[1];
+                //Parse grades from strings to integers
+                int t1 = Integer.parseInt(parts[2]);
+                int t2 = Integer.parseInt(parts[3]);
+                int t3 = Integer.parseInt(parts[4]);
+                int exam = Integer.parseInt(parts[5]);
 
-                try {
-                    //Parse grades from strings to integers
-                    int t1 = Integer.parseInt(parts[2]);
-                    int t2 = Integer.parseInt(parts[3]);
-                    int t3 = Integer.parseInt(parts[4]);
-                    int exam = Integer.parseInt(parts[5]);
+                //Create a StudentCourse object with the course and grades
+                StudentCourse course = new StudentCourse(courseCode, t1, t2, t3, exam);
 
-                    //Create a StudentCourse object with the course and grades
-                    StudentCourse course = new StudentCourse(courseCode, t1, t2, t3, exam);
-
-                    //Add course to the correct student (if student exists)
-                    if (studentMap.containsKey(id)) {
-                        studentMap.get(id).addCourse(course);
-                    } else {
-                        //If student ID wasn’t in NameFile.txt, log a warning
-                        System.out.println("Warning: student ID not found → " + id);
-                    }
-
-                } catch (NumberFormatException e) {
-                    //Handle the case where test/exam marks are not valid integers
-                    System.out.println("Error parsing numbers in course file: " + line);
-                }
+                //Add course to the correct student (if student exists)
+                Student student = studentMap.get(id);
+                assert student != null : "Student ID not found in name file: " + id;
+                   
+                student.addCourse(course);
             }
-
-        } catch (IOException e) {
-            //Handle error if course file can’t be opened or read
-            System.out.println("Error reading course file: " + e.getMessage());
+        } catch (IOException | NumberFormatException e) {
+            throw new RuntimeException("Failed to read or parse course file: " + courseFile, e);
         }
 
-        //Return the complete map of students and their course records
         return studentMap;
     }
 }
