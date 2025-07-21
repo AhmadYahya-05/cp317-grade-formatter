@@ -1,12 +1,3 @@
-/*
---------------------------------------------------
-Project: CP317 Grade Formatter
-File:    FileProcessor.java
-Author:  Mehdi Al-heloo
-Version: 2025-07-10
---------------------------------------------------
-*/
-
 package gradeFormatter;
 
 import java.io.BufferedReader;
