@@ -1,12 +1,3 @@
-/*
---------------------------------------------------
-Project: CP317 Grade Formatter
-File:    GradeCalculator.java
-Author:  Mehdi Al-heloo
-Version: 2025-07-10
---------------------------------------------------
-*/
-
 package gradeFormatter;
 
 /**
